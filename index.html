@@ -15,36 +15,44 @@
     </head>
 
     <body>
-        <div class="backbone-container">
+        <div class="backbone-container"></div>
+
+        <script type="text/html" id="layout-template">
             <div class="container">
                 <h1 class="text-center">BackTalk</h1>
-                <fieldset>
-                    <legend>Discussion</legend>
-                    <a class="btn btn-default pull-right">Rafraichir</a>
-                    <ul class="list-unstyled">
-                        <li><strong>Toto :</strong> Bonjour !</li>
-                        <li><strong>Perv62 :</strong> Slt! ASV?</li>
-                        <li><strong>Toto :</strong> C'est quoi ASV</li>
-                        <li><strong>Perv62 :</strong> Ta kel age ?</li>
-                    </ul>
-                </fieldset>
-                <fieldset>
-                    <legend>Nouveau message</legend>
-                    <form>
-                        <div class="row">
-                            <div class="col-xs-2">
-                                <input type="text" name="message[pseudo]" class="form-control" placeholder="pseudo" />
-                            </div>
-                            <div class="col-xs-8">
-                                <input type="text" name="message[text]" class="form-control" placeholder="message" />
-                            </div>
-                            <div class="col-xs-2">
-                                <input type="submit" class="btn btn-primary btn-block" value="Envoyer" />
-                            </div>
-                        </div>
-                    </form>
-                </fieldset>
+                <div id="chat-room-region"></div>
+                <div id="message-form-region"></div>
             </div>
-        </div>
+        </script>
+        <script type="text/html" id="chat-room-template">
+            <fieldset>
+                <legend>Discussion</legend>
+                <a class="btn btn-default pull-right">Rafraichir</a>
+                <ul class="list-unstyled">
+                    <li><strong>Toto :</strong> Bonjour !</li>
+                    <li><strong>Perv62 :</strong> Slt! ASV?</li>
+                    <li><strong>Toto :</strong> C'est quoi ASV</li>
+                    <li><strong>Perv62 :</strong> Ta kel age ?</li>
+                </ul>
+            </fieldset>
+        </script>
+        <script type="text/html" id="message-form-template">
+            <fieldset>
+                <legend>Nouveau message</legend>
+                <form>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <input type="text" name="message[pseudo]" class="form-control" placeholder="pseudo" />
+                        </div>
+                        <div class="col-xs-8">
+                            <input type="text" name="message[text]" class="form-control" placeholder="message" />
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="submit" class="btn btn-primary btn-block" value="Envoyer" />
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+        </script>
     </body>
 </html>
