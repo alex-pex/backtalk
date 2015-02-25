@@ -1,0 +1,16 @@
+{
+    "name": "alex-pex/backtalk",
+    "description": "A backbone chat application",
+    "authors": [
+        {
+            "name": "alex-pex",
+            "email": "alexandre.paixao@stadline.com"
+        }
+    ],
+    "require": {
+        "stadline/js-extension-bundle": "~1.1"
+    },
+    "config": {
+        "vendor-dir": "packages"
+    }
+}
