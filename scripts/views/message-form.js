@@ -7,6 +7,22 @@ App.module('Views', function(module) {
             return {
                 message: this.model
             };
+        },
+
+        events: {
+            "submit form": "onFormSubmit"
+        },
+
+        onFormSubmit: function(event) {
+            event.preventDefault();
+
+            var values = this.$('form').serializeObject();
+
+            var message = new App.Models.Message(values.message);
+
+            App.messages.add(message);
+
+            this.render();
         }
     });
 });

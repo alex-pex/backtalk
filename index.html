@@ -28,13 +28,11 @@
             <fieldset>
                 <legend>Discussion</legend>
                 <a class="btn btn-default pull-right">Rafraichir</a>
-                <ul class="list-unstyled">
-                    <li><strong>Toto :</strong> Bonjour !</li>
-                    <li><strong>Perv62 :</strong> Slt! ASV?</li>
-                    <li><strong>Toto :</strong> C'est quoi ASV</li>
-                    <li><strong>Perv62 :</strong> Ta kel age ?</li>
-                </ul>
+                <ul class="list-unstyled"></ul>
             </fieldset>
+        </script>
+        <script type="text/html" id="chat-room-message-template">
+            <strong>{{ message.get('pseudo') }} :</strong> {{ message.get('text') }}
         </script>
         <script type="text/html" id="message-form-template">
             <fieldset>
