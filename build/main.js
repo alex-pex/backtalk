@@ -2040,6 +2040,7 @@ $.fn.render = function(templateSelector, data, settings) {
 
     return $(this).html(outerHtml);
 };
+//
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -3933,6 +3934,7 @@ $.fn.render = function(templateSelector, data, settings) {
     };
 }));
 
+//
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
 // v2.2.0
@@ -7692,6 +7694,7 @@ Backbone.Marionette.CollectionView.prototype.showCollection = function() {
   return FormSerializer;
 }));
 
+//
 Extension = window.Extension || {};
 
 Extension.Application = Marionette.Application.extend({
@@ -8161,3 +8164,4 @@ $(function() {
         App.start();
     });
 });
+//# sourceMappingURL=main.js.map

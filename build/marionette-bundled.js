@@ -3756,3 +3756,5 @@ Backbone.Marionette.CollectionView.prototype.showCollection = function() {
 
   return FormSerializer;
 }));
+
+//# sourceMappingURL=marionette-bundled.js.map

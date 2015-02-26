@@ -1890,3 +1890,5 @@
         return originalSync.call(model, method, model, options);
     };
 }));
+
+//# sourceMappingURL=backbone-bundled.js.map
