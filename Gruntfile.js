@@ -52,7 +52,7 @@ module.exports = function (grunt) {
                     'build/underscore-bundled.js',
                     'build/backbone-bundled.js',
                     'build/marionette-bundled.js',
-                    
+
                     'packages/stadline/js-extension-bundle/Resources/public/backbone/extensions/*.js',
                     'scripts/models/*.js',
                     'scripts/collections/*.js',
@@ -63,6 +63,9 @@ module.exports = function (grunt) {
             }
         },
         uglify: {
+            options: {
+                sourceMap: true
+            },
             build: {
                 src: 'build/main.js',
                 dest: 'build/main.min.js'
@@ -102,5 +105,6 @@ module.exports = function (grunt) {
 
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
     grunt.registerTask('default', ['less', 'concat', 'uglify']);
+    grunt.registerTask('dev', ['default', 'watch']);
 
 };
