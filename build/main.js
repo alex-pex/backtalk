@@ -8125,17 +8125,6 @@ App.module('Views', function(module) {
         }
     });
 });
-// @koala-prepend "marionette-bundled.js"
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/backbone/extensions/application.js"
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/backbone/extensions/layoutview.js"
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/backbone/extensions/relationalmodel.js"
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/backbone/extensions/subcollection.js"
-// @koala-prepend "models/question.js"
-// @koala-prepend "collections/questions.js"
-// @koala-prepend "views/chat-room.js"
-// @koala-prepend "views/layout.js"
-// @koala-prepend "views/message-form.js"
-
 App = window.App || new Extension.Application();
 
 $(function() {
