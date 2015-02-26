@@ -2,10 +2,12 @@ App = window.App || new Extension.Application();
 
 $(function() {
     // after booting the application
-    App.on("start", function() {
+    App.on("before:start", function() {
         // initialize data
-        App.setParameter('api_base_url', 'http://192.168.0.148');
+        App.setParameter('api_base_url', 'http://api-marionette.local/api');
+    });
 
+    App.on("start", function() {
         // render main view
         App.layout = new App.Views.Layout({
             el: $(".backbone-container:first")
@@ -18,11 +20,12 @@ $(function() {
         url: 'build/templates.html',
         dataType: 'text'
     }).done(function(templates) {
-        console.log(templates);
-
         $(document.body).append(templates);
     
-        $.ajaxSetup({timeout:2000});
+        $.ajaxSetup({
+            timeout: 2000,
+            headers: { 'X-Requested-With' : 'XMLHttpRequest' }
+        });
 
         // boot application
         App.start();

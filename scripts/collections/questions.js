@@ -15,6 +15,10 @@ App.module('Collections', function(module) {
         App.messages = new App.Collections.Messages();
     });
 
+    App.on("start", function() {
+        App.messages.fetch();
+    });
+
     App.on("stop", function() {
         App.messages.reset();
     });

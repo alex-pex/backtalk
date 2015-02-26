@@ -17,10 +17,9 @@ App.module('Views', function(module) {
             event.preventDefault();
 
             var values = this.$('form').serializeObject();
-
             var message = new App.Models.Message(values.message);
-
             App.messages.add(message);
+            message.save();
 
             this.render();
         }

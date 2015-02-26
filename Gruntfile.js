@@ -70,21 +70,21 @@ module.exports = function (grunt) {
         },
         watch: {
             styles: {
-                files: ['styles/*.less'],
+                files: ['styles/*.less', 'styles/**/*.less'],
                 tasks: ['less'],
                 options: {
                     spawn: false
                 }
             },
             scripts: {
-                files: ['scripts/*.js'],
+                files: ['scripts/*.js', 'scripts/**/*.js'],
                 tasks: ['concat', 'uglify'],
                 options: {
                     spawn: false
                 }
             },
             templates: {
-                files: ['templates/*.html'],
+                files: ['templates/*.html', 'templates/**/*.html'],
                 tasks: ['concat', 'uglify'],
                 options: {
                     spawn: false
