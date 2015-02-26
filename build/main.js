@@ -8128,8 +8128,6 @@ App.module('Views', function(module) {
 App = window.App || new Extension.Application();
 
 $(function() {
-    $.ajaxSetup({timeout:2000});
-
     // after booting the application
     App.on("start", function() {
         // initialize data
@@ -8143,6 +8141,17 @@ $(function() {
         App.layout.render();
     });
 
-    // boot application
-    App.start();
+    $.ajax({
+        url: 'build/templates.html',
+        dataType: 'text'
+    }).done(function(templates) {
+        console.log(templates);
+
+        $(document.body).append(templates);
+    
+        $.ajaxSetup({timeout:2000});
+
+        // boot application
+        App.start();
+    });
 });

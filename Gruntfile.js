@@ -17,6 +17,12 @@ module.exports = function (grunt) {
         },
         concat: {
             // 2. Configuration for concatinating files goes here.
+            templates: {
+                src: [
+                    'templates/*.html'
+                ],
+                dest: 'build/templates.html'
+            },
             underscore_bundled: {
                 src: [
                     'packages/stadline/js-extension-bundle/Resources/public/js/underscore.js',
@@ -46,6 +52,7 @@ module.exports = function (grunt) {
                     'build/underscore-bundled.js',
                     'build/backbone-bundled.js',
                     'build/marionette-bundled.js',
+                    
                     'packages/stadline/js-extension-bundle/Resources/public/backbone/extensions/*.js',
                     'scripts/models/*.js',
                     'scripts/collections/*.js',
@@ -71,6 +78,13 @@ module.exports = function (grunt) {
             },
             scripts: {
                 files: ['scripts/*.js'],
+                tasks: ['concat', 'uglify'],
+                options: {
+                    spawn: false
+                }
+            },
+            templates: {
+                files: ['templates/*.html'],
                 tasks: ['concat', 'uglify'],
                 options: {
                     spawn: false

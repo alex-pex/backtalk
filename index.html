@@ -17,41 +17,5 @@
 
     <body>
         <div class="backbone-container"></div>
-
-        <script type="text/html" id="layout-template">
-            <div class="container">
-                <h1 class="text-center">BackTalk</h1>
-                <div id="chat-room-region"></div>
-                <div id="message-form-region"></div>
-            </div>
-        </script>
-        <script type="text/html" id="chat-room-template">
-            <fieldset>
-                <legend>Discussion</legend>
-                <a class="btn btn-default pull-right">Rafraichir</a>
-                <ul class="list-unstyled"></ul>
-            </fieldset>
-        </script>
-        <script type="text/html" id="chat-room-message-template">
-            <strong>{{ message.get('pseudo') }} :</strong> {{ message.get('text') }}
-        </script>
-        <script type="text/html" id="message-form-template">
-            <fieldset>
-                <legend>Nouveau message</legend>
-                <form>
-                    <div class="row">
-                        <div class="col-xs-2">
-                            <input type="text" name="message[pseudo]" class="form-control" placeholder="pseudo" />
-                        </div>
-                        <div class="col-xs-8">
-                            <input type="text" name="message[text]" class="form-control" placeholder="message" />
-                        </div>
-                        <div class="col-xs-2">
-                            <input type="submit" class="btn btn-primary btn-block" value="Envoyer" />
-                        </div>
-                    </div>
-                </form>
-            </fieldset>
-        </script>
     </body>
 </html>
