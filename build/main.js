@@ -1342,7 +1342,6 @@
   }
 }).call(this);
 
-
 //  Underscore.string
 //  (c) 2010 Esa-Matti Suuronen <esa-matti aet suuronen dot org>
 //  Underscore.string is freely distributable under the terms of the MIT license.
@@ -2017,7 +2016,6 @@
   root._.string = root._.str = _s;
 }(this, String);
 
-
 // integrate underscore string
 _.mixin(_.str.exports());
 
@@ -2042,11 +2040,6 @@ $.fn.render = function(templateSelector, data, settings) {
 
     return $(this).html(outerHtml);
 };
-
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/js/underscore.js"
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/js/underscore.string.js"
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/js/underscore.template.js"
-
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -3656,7 +3649,6 @@ $.fn.render = function(templateSelector, data, settings) {
 
 }));
 
-
 (function (root, factory, undef) {
     'use strict';
 
@@ -3840,7 +3832,6 @@ $.fn.render = function(templateSelector, data, settings) {
     return Mutator;
 }));
 
-
 /*!
  * backbone.basicauth.js v0.4.0
  * modified to use application credential parameter as default
@@ -3941,12 +3932,6 @@ $.fn.render = function(templateSelector, data, settings) {
         return originalSync.call(model, method, model, options);
     };
 }));
-
-
-// @koala-prepend "underscore-bundled.js"
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/js/backbone.js"
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/js/backbone.mutators.js"
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/js/backbone.basicauth.js"
 
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
@@ -7530,7 +7515,6 @@ $.fn.render = function(templateSelector, data, settings) {
   return Marionette;
 }));
 
-
 Backbone.Marionette.CollectionView.prototype.addChildView = function(item, collection, options) {
     var filter = this.options.filter || this.filter;
     if (filter && !filter.call(this, item)) {
@@ -7555,7 +7539,6 @@ Backbone.Marionette.CollectionView.prototype.showCollection = function() {
         this.addItemView(item, itemView, index);
     }, this);
 };
-
 /**
  * jQuery serializeObject
  * @copyright 2014, macek <paulmacek@gmail.com>
@@ -7709,12 +7692,6 @@ Backbone.Marionette.CollectionView.prototype.showCollection = function() {
   return FormSerializer;
 }));
 
-
-// @koala-prepend "backbone-bundled.js"
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/js/marionette.js"
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/js/marionette.filtering.js"
-// @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/js/jquery.serialize-object.js"
-
 Extension = window.Extension || {};
 
 Extension.Application = Marionette.Application.extend({
@@ -7740,7 +7717,6 @@ Extension.Application = Marionette.Application.extend({
         return this.parameters.get(key);
     }
 });
-
 Extension = window.Extension || {};
 
 Extension.LayoutView = Marionette.LayoutView.extend({
@@ -7802,7 +7778,6 @@ Extension.LayoutView = Marionette.LayoutView.extend({
         }
     }
 });
-
 Extension = window.Extension || {};
 
 /**
@@ -7995,7 +7970,6 @@ Extension.RelationalModel = Backbone.Model.extend({
         return !!baseUrl;
     }
 });
-
 Extension = window.Extension || {};
 
 /**
@@ -8038,7 +8012,6 @@ Extension.SubCollection = Backbone.Collection.extend({
         Backbone.Collection.apply(this, arguments);
     }
 });
-
 App = window.App || new Extension.Application();
 
 App.module('Models', function(module) {
@@ -8046,7 +8019,6 @@ App.module('Models', function(module) {
         // nothing yet
     });
 });
-
 App = window.App || new Extension.Application();
 
 App.module('Collections', function(module) {
@@ -8068,7 +8040,6 @@ App.module('Collections', function(module) {
         App.messages.reset();
     });
 });
-
 App = window.App || new Extension.Application();
 
 App.module('Views', function(module) {
@@ -8100,7 +8071,6 @@ App.module('Views', function(module) {
         childViewContainer: 'ul'
     });
 });
-
 App = window.App || new Extension.Application();
 
 App.module('Views', function(module) {
@@ -8127,7 +8097,6 @@ App.module('Views', function(module) {
         }
     });
 });
-
 App = window.App || new Extension.Application();
 
 App.module('Views', function(module) {
@@ -8156,7 +8125,6 @@ App.module('Views', function(module) {
         }
     });
 });
-
 // @koala-prepend "marionette-bundled.js"
 // @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/backbone/extensions/application.js"
 // @koala-prepend "../packages/stadline/js-extension-bundle/Resources/public/backbone/extensions/layoutview.js"
