@@ -1,6 +1,6 @@
 var Marionette = require('backbone.marionette');
 
-var ChatRoomMessage = Marionette.ItemView.extend({
+var ChildView = Marionette.ItemView.extend({
     template: "#chat-room-message-template",
     serializeData: function() {
         return {
@@ -15,7 +15,7 @@ var ChatRoomMessage = Marionette.ItemView.extend({
     tagName: 'li'
 });
 
-var ChatRoom = Marionette.CompositeView.extend({
+module.exports = Marionette.CompositeView.extend({
     template: "#chat-room-template",
     serializeData: function() {
         return {
@@ -23,8 +23,6 @@ var ChatRoom = Marionette.CompositeView.extend({
         };
     },
 
-    childView: ChatRoomMessage,
+    childView: ChildView,
     childViewContainer: 'ul'
 });
-
-module.exports = ChatRoom;

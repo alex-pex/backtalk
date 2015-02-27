@@ -1,8 +1,10 @@
 var Marionette = require('backbone.marionette');
+var ChatRoomView = require('./chat-room');
+var MessageForm = require('./message-form');
+var Message = require('../../entities/models/message');
+var API = require('../../app');
 
-//var ChatRoomView = require('./views/chat-room');
-
-var Layout = Marionette.LayoutView.extend({
+module.exports = Marionette.LayoutView.extend({
     template: "#layout-template",
 
     regions: {
@@ -11,15 +13,12 @@ var Layout = Marionette.LayoutView.extend({
     },
 
     onRender: function() {
-        /*this.chatRoom.show(ChatRoomView({
-            collection: App.messages
+        this.chatRoom.show(new ChatRoomView({
+            collection: API.request('message:entities')
         }));
 
-        /*
-        this.messageForm.show(new App.Views.MessageForm({
-            model: new App.Models.Message()
-        }));*/
+        this.messageForm.show(new MessageForm({
+            model: new Message()
+        }));
     }
 });
-
-module.exports = Layout;

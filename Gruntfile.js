@@ -116,7 +116,7 @@ module.exports = function (grunt) {
             }
         },
         browserify: {
-            'browserify-dist/js/app.js': ['browserify-assets/scripts/app.js']
+            'browserify-dist/js/main.js': ['browserify-assets/scripts/main.js']
         }
     });
 

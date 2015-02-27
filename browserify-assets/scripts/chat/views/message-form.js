@@ -1,29 +1,29 @@
-App = window.App || new Extension.Application();
+var Marionette = require('backbone.marionette');
+var API = require('../../app');
+var Message = require('../../entities/models/message');
 
-App.module('Views', function(module) {
-    module.MessageForm = Marionette.ItemView.extend({
-        template: "#message-form-template",
-        serializeData: function() {
-            return {
-                message: this.model
-            };
-        },
+module.exports = Marionette.ItemView.extend({
+    template: "#message-form-template",
+    serializeData: function() {
+        return {
+            message: this.model
+        };
+    },
 
-        events: {
-            "submit form": "onFormSubmit"
-        },
+    events: {
+        "submit form": "onFormSubmit"
+    },
 
-        onFormSubmit: function(event) {
-            event.preventDefault();
+    onFormSubmit: function(event) {
+        event.preventDefault();
 
-            var values = this.$('form').serializeObject();
-            var message = new App.Models.Message(values.message);
+        var values = this.$('form').serializeObject();
+        var message = new Message(values.message);
 
-            message.set('created_at', new Date());
-            App.messages.add(message);
-            message.save();
+        message.set('created_at', new Date());
+        API.request('message:entities').add(message);
+        message.save();
 
-            this.render();
-        }
-    });
+        this.render();
+    }
 });

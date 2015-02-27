@@ -1,12 +1,166 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-// vendors requirements
-var $ = require('jquery');
-var Backbone = require('backbone');
-Backbone.$ = $;
 var Marionette = require('backbone.marionette');
 
 module.exports = new Marionette.Application();
-},{"backbone":6,"backbone.marionette":2,"jquery":8}],2:[function(require,module,exports){
+},{"backbone.marionette":10}],2:[function(require,module,exports){
+var Marionette = require('backbone.marionette');
+var LayoutView = require('./views/layout');
+
+var ChatModule = Marionette.Module.extend({
+    onStart: function() {
+        this.app.layout = new LayoutView({
+            el: $(".backbone-container:first")
+        });
+
+        this.app.layout.render();
+    }
+});
+
+module.exports = ChatModule;
+},{"./views/layout":4,"backbone.marionette":10}],3:[function(require,module,exports){
+var Marionette = require('backbone.marionette');
+
+var ChildView = Marionette.ItemView.extend({
+    template: "#chat-room-message-template",
+    serializeData: function() {
+        return {
+            message: this.model
+        };
+    },
+
+    modelEvents: {
+        'change:text': 'render'
+    },
+
+    tagName: 'li'
+});
+
+module.exports = Marionette.CompositeView.extend({
+    template: "#chat-room-template",
+    serializeData: function() {
+        return {
+            messages: this.collection
+        };
+    },
+
+    childView: ChildView,
+    childViewContainer: 'ul'
+});
+},{"backbone.marionette":10}],4:[function(require,module,exports){
+var Marionette = require('backbone.marionette');
+var ChatRoomView = require('./chat-room');
+var MessageForm = require('./message-form');
+var Message = require('../../entities/models/message');
+var API = require('../../app');
+
+module.exports = Marionette.LayoutView.extend({
+    template: "#layout-template",
+
+    regions: {
+        chatRoom: "#chat-room-region",
+        messageForm: "#message-form-region"
+    },
+
+    onRender: function() {
+        this.chatRoom.show(new ChatRoomView({
+            collection: API.request('message:entities')
+        }));
+
+        this.messageForm.show(new MessageForm({
+            model: new Message()
+        }));
+    }
+});
+},{"../../app":1,"../../entities/models/message":6,"./chat-room":3,"./message-form":5,"backbone.marionette":10}],5:[function(require,module,exports){
+var Marionette = require('backbone.marionette');
+var API = require('../../app');
+var Message = require('../../entities/models/message');
+
+module.exports = Marionette.ItemView.extend({
+    template: "#message-form-template",
+    serializeData: function() {
+        return {
+            message: this.model
+        };
+    },
+
+    events: {
+        "submit form": "onFormSubmit"
+    },
+
+    onFormSubmit: function(event) {
+        event.preventDefault();
+
+        var values = this.$('form').serializeObject();
+        var message = new Message(values.message);
+
+        message.set('created_at', new Date());
+        API.request('message:entities').add(message);
+        message.save();
+
+        this.render();
+    }
+});
+},{"../../app":1,"../../entities/models/message":6,"backbone.marionette":10}],6:[function(require,module,exports){
+var Backbone = require('backbone');
+
+module.exports = Backbone.Model.extend({
+    // nothing yet
+});
+},{"backbone":14}],7:[function(require,module,exports){
+var Backbone = require('backbone');
+var Message = require('./message');
+
+module.exports = Backbone.Collection.extend({
+    model: Message
+});
+},{"./message":6,"backbone":14}],8:[function(require,module,exports){
+var Marionette = require('backbone.marionette');
+var Messages = require('./models/messages');
+
+module.exports = Marionette.Module.extend({
+    onStart: function() {
+        var API = this.app.reqres;
+        var messages = new Messages();
+        
+        API.setHandler('message:entities', function() {
+            return messages;
+        });
+    }
+});
+},{"./models/messages":7,"backbone.marionette":10}],9:[function(require,module,exports){
+// vendor requirements
+var $ = require('jquery');
+require('../../packages/stadline/js-extension-bundle/Resources/public/js/jquery.serialize-object');
+var _ = require('underscore');
+var Backbone = require('backbone');
+Backbone.$ = $;
+
+// application requirements
+var App = require('./app');
+var EntitiesModule = require('./entities/module');
+var ChatModule = require('./chat/module');
+
+console.log('App', App);
+
+$.ajax({
+    url: 'dist/templates.html',
+    dataType: 'text'
+}).done(function(templates) {
+    $(document.body).append(templates);
+
+    $.ajaxSetup({
+        timeout: 2000,
+        headers: {'X-Requested-With': 'XMLHttpRequest'}
+    });
+
+    // boot application
+    App.module('entities', EntitiesModule);
+    App.module('chat', ChatModule);
+    App.start();
+});
+
+},{"../../packages/stadline/js-extension-bundle/Resources/public/js/jquery.serialize-object":18,"./app":1,"./chat/module":2,"./entities/module":8,"backbone":14,"jquery":16,"underscore":17}],10:[function(require,module,exports){
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
 // v2.4.0
@@ -3357,7 +3511,7 @@ module.exports = new Marionette.Application();
   return Marionette;
 }));
 
-},{"backbone":6,"backbone.babysitter":3,"backbone.wreqr":4,"underscore":5}],3:[function(require,module,exports){
+},{"backbone":14,"backbone.babysitter":11,"backbone.wreqr":12,"underscore":13}],11:[function(require,module,exports){
 // Backbone.BabySitter
 // -------------------
 // v0.1.6
@@ -3549,7 +3703,7 @@ module.exports = new Marionette.Application();
 
 }));
 
-},{"backbone":6,"underscore":5}],4:[function(require,module,exports){
+},{"backbone":14,"underscore":13}],12:[function(require,module,exports){
 // Backbone.Wreqr (Backbone.Marionette)
 // ----------------------------------
 // v1.3.1
@@ -3991,7 +4145,7 @@ module.exports = new Marionette.Application();
 
 }));
 
-},{"backbone":6,"underscore":5}],5:[function(require,module,exports){
+},{"backbone":14,"underscore":13}],13:[function(require,module,exports){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -5336,7 +5490,7 @@ module.exports = new Marionette.Application();
   }
 }).call(this);
 
-},{}],6:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 //     Backbone.js 1.1.2
 
 //     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -6946,7 +7100,7 @@ module.exports = new Marionette.Application();
 
 }));
 
-},{"underscore":7}],7:[function(require,module,exports){
+},{"underscore":15}],15:[function(require,module,exports){
 //     Underscore.js 1.8.2
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -8484,7 +8638,7 @@ module.exports = new Marionette.Application();
   }
 }.call(this));
 
-},{}],8:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -17691,4 +17845,160 @@ return jQuery;
 
 }));
 
-},{}]},{},[1]);
+},{}],17:[function(require,module,exports){
+arguments[4][15][0].apply(exports,arguments)
+},{"dup":15}],18:[function(require,module,exports){
+/**
+ * jQuery serializeObject
+ * @copyright 2014, macek <paulmacek@gmail.com>
+ * @link https://github.com/macek/jquery-serialize-object
+ * @license BSD
+ * @version 2.4.3
+ */
+(function(root, factory) {
+
+  // AMD
+  if (typeof define === "function" && define.amd) {
+    define(["exports", "jquery"], function(exports, $) {
+      return factory(exports, $);
+    });
+  }
+
+  // CommonJS
+  else if (typeof exports !== "undefined") {
+    var $ = require("jquery");
+    factory(exports, $);
+  }
+
+  // Browser
+  else {
+    factory(root, (root.jQuery || root.Zepto || root.ender || root.$));
+  }
+
+}(this, function(exports, $) {
+
+  var patterns = {
+    validate: /^[a-z_][a-z0-9_]*(?:\[(?:\d*|[a-z0-9_]+)\])*$/i,
+    key:      /[a-z0-9_]+|(?=\[\])/gi,
+    push:     /^$/,
+    fixed:    /^\d+$/,
+    named:    /^[a-z0-9_]+$/i
+  };
+
+  function FormSerializer(helper, $form) {
+
+    // private variables
+    var data     = {},
+        pushes   = {};
+
+    // private API
+    function build(base, key, value) {
+      base[key] = value;
+      return base;
+    }
+
+    function makeObject(root, value) {
+
+      var keys = root.match(patterns.key), k;
+
+      // nest, nest, ..., nest
+      while ((k = keys.pop()) !== undefined) {
+        // foo[]
+        if (patterns.push.test(k)) {
+          var idx = incrementPush(root.replace(/\[\]$/, ''));
+          value = build([], idx, value);
+        }
+
+        // foo[n]
+        else if (patterns.fixed.test(k)) {
+          value = build([], k, value);
+        }
+
+        // foo; foo[bar]
+        else if (patterns.named.test(k)) {
+          value = build({}, k, value);
+        }
+      }
+
+      return value;
+    }
+
+    function incrementPush(key) {
+      if (pushes[key] === undefined) {
+        pushes[key] = 0;
+      }
+      return pushes[key]++;
+    }
+
+    function encode(pair) {
+      switch ($('[name="' + pair.name + '"]', $form).attr("type")) {
+        case "checkbox":
+          return pair.value === "on" ? true : pair.value;
+        default:
+          return pair.value;
+      }
+    }
+
+    function addPair(pair) {
+      if (!patterns.validate.test(pair.name)) return this;
+      var obj = makeObject(pair.name, encode(pair));
+      data = helper.extend(true, data, obj);
+      return this;
+    }
+
+    function addPairs(pairs) {
+      if (!helper.isArray(pairs)) {
+        throw new Error("formSerializer.addPairs expects an Array");
+      }
+      for (var i=0, len=pairs.length; i<len; i++) {
+        this.addPair(pairs[i]);
+      }
+      return this;
+    }
+
+    function serialize() {
+      return data;
+    }
+
+    function serializeJSON() {
+      return JSON.stringify(serialize());
+    }
+
+    // public API
+    this.addPair = addPair;
+    this.addPairs = addPairs;
+    this.serialize = serialize;
+    this.serializeJSON = serializeJSON;
+  }
+
+  FormSerializer.patterns = patterns;
+
+  FormSerializer.serializeObject = function serializeObject() {
+    if (this.length > 1) {
+      return new Error("jquery-serialize-object can only serialize one form at a time");
+    }
+    return new FormSerializer($, this).
+      addPairs(this.serializeArray()).
+      serialize();
+  };
+
+  FormSerializer.serializeJSON = function serializeJSON() {
+    if (this.length > 1) {
+      return new Error("jquery-serialize-object can only serialize one form at a time");
+    }
+    return new FormSerializer($, this).
+      addPairs(this.serializeArray()).
+      serializeJSON();
+  };
+
+  if (typeof $.fn !== "undefined") {
+    $.fn.serializeObject = FormSerializer.serializeObject;
+    $.fn.serializeJSON   = FormSerializer.serializeJSON;
+  }
+
+  exports.FormSerializer = FormSerializer;
+
+  return FormSerializer;
+}));
+
+},{"jquery":16}]},{},[9]);
