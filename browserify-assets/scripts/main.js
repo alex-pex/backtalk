@@ -1,7 +1,6 @@
 // vendor requirements
 var $ = require('jquery');
 require('../../packages/stadline/js-extension-bundle/Resources/public/js/jquery.serialize-object');
-var _ = require('underscore');
 var Backbone = require('backbone');
 Backbone.$ = $;
 
@@ -21,6 +20,11 @@ $.ajax({
     $.ajaxSetup({
         timeout: 2000,
         headers: {'X-Requested-With': 'XMLHttpRequest'}
+    });
+
+    // set parameters
+    App.parameters.set({
+        api_base_url: 'http://api-marionette.local:8080/api'
     });
 
     // boot application

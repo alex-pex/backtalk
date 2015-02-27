@@ -1,8 +1,11 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Marionette = require('backbone.marionette');
+var Backbone = require('backbone');
 
-module.exports = new Marionette.Application();
-},{"backbone.marionette":10}],2:[function(require,module,exports){
+module.exports = new Marionette.Application({
+    parameters: new Backbone.Model()
+});
+},{"backbone":14,"backbone.marionette":10}],2:[function(require,module,exports){
 var Marionette = require('backbone.marionette');
 var LayoutView = require('./views/layout');
 
@@ -110,21 +113,29 @@ module.exports = Backbone.Model.extend({
 },{"backbone":14}],7:[function(require,module,exports){
 var Backbone = require('backbone');
 var Message = require('./message');
+var App = require('../../app');
 
 module.exports = Backbone.Collection.extend({
-    model: Message
+    model: Message,
+    url: function() {
+        return App.parameters.get('api_base_url')+'/messages.json';
+    }
 });
-},{"./message":6,"backbone":14}],8:[function(require,module,exports){
+},{"../../app":1,"./message":6,"backbone":14}],8:[function(require,module,exports){
 var Marionette = require('backbone.marionette');
 var Messages = require('./models/messages');
 
 module.exports = Marionette.Module.extend({
     onStart: function() {
         var API = this.app.reqres;
-        var messages = new Messages();
+        var storage = {};
         
         API.setHandler('message:entities', function() {
-            return messages;
+            if (!storage.hasOwnProperty('messages')) {
+                storage.messages = new Messages();
+                storage.messages.fetch();
+            }
+            return storage.messages;
         });
     }
 });
@@ -132,7 +143,6 @@ module.exports = Marionette.Module.extend({
 // vendor requirements
 var $ = require('jquery');
 require('../../packages/stadline/js-extension-bundle/Resources/public/js/jquery.serialize-object');
-var _ = require('underscore');
 var Backbone = require('backbone');
 Backbone.$ = $;
 
@@ -154,13 +164,18 @@ $.ajax({
         headers: {'X-Requested-With': 'XMLHttpRequest'}
     });
 
+    // set parameters
+    App.parameters.set({
+        api_base_url: 'http://api-marionette.local:8080/api'
+    });
+
     // boot application
     App.module('entities', EntitiesModule);
     App.module('chat', ChatModule);
     App.start();
 });
 
-},{"../../packages/stadline/js-extension-bundle/Resources/public/js/jquery.serialize-object":18,"./app":1,"./chat/module":2,"./entities/module":8,"backbone":14,"jquery":16,"underscore":17}],10:[function(require,module,exports){
+},{"../../packages/stadline/js-extension-bundle/Resources/public/js/jquery.serialize-object":17,"./app":1,"./chat/module":2,"./entities/module":8,"backbone":14,"jquery":16}],10:[function(require,module,exports){
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
 // v2.4.0
@@ -17846,8 +17861,6 @@ return jQuery;
 }));
 
 },{}],17:[function(require,module,exports){
-arguments[4][15][0].apply(exports,arguments)
-},{"dup":15}],18:[function(require,module,exports){
 /**
  * jQuery serializeObject
  * @copyright 2014, macek <paulmacek@gmail.com>

@@ -4,10 +4,14 @@ var Messages = require('./models/messages');
 module.exports = Marionette.Module.extend({
     onStart: function() {
         var API = this.app.reqres;
-        var messages = new Messages();
+        var storage = {};
         
         API.setHandler('message:entities', function() {
-            return messages;
+            if (!storage.hasOwnProperty('messages')) {
+                storage.messages = new Messages();
+                storage.messages.fetch();
+            }
+            return storage.messages;
         });
     }
 });
