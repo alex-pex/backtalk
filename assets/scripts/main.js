@@ -17,14 +17,14 @@ $(function() {
     });
 
     $.ajax({
-        url: 'build/templates.html',
+        url: 'dist/templates.html',
         dataType: 'text'
     }).done(function(templates) {
         $(document.body).append(templates);
-    
+
         $.ajaxSetup({
             timeout: 2000,
-            headers: { 'X-Requested-With' : 'XMLHttpRequest' }
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
         });
 
         // boot application

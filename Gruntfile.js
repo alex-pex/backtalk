@@ -3,14 +3,25 @@ module.exports = function (grunt) {
     // 1. All configuration goes here
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        notify: {
+            watch: {
+                options: {
+                    title: 'Task Complete',
+                    message: 'Automatic compilation finished running'
+                }
+            }
+        },
         less: {
             main: {
                 options: {
                     compress: true,
-                    yuicompress: true
+                    yuicompress: true,
+                    sourceMap: true,
+                    sourceMapURL: 'main.min.css.map',
+                    sourceMapRootpath: '../../'
                 },
                 files: {
-                    "build/main.min.css": "styles/main.less" // destination file and source file
+                    "dist/css/main.min.css": "assets/styles/main.less" // destination file and source file
                 }
             }
         },
@@ -24,9 +35,9 @@ module.exports = function (grunt) {
                     sourceMap: false
                 },
                 src: [
-                    'templates/*.html'
+                    'assets/templates/*.html'
                 ],
-                dest: 'build/templates.html'
+                dest: 'dist/templates.html'
             },
             underscore_bundled: {
                 src: [
@@ -34,7 +45,7 @@ module.exports = function (grunt) {
                     'packages/stadline/js-extension-bundle/Resources/public/js/underscore.string.js',
                     'packages/stadline/js-extension-bundle/Resources/public/js/underscore.template.js'
                 ],
-                dest: 'build/underscore-bundled.js'
+                dest: 'dist/js/underscore-bundled.js'
             },
             backbone_bundled: {
                 src: [
@@ -42,7 +53,7 @@ module.exports = function (grunt) {
                     'packages/stadline/js-extension-bundle/Resources/public/js/backbone.mutators.js',
                     'packages/stadline/js-extension-bundle/Resources/public/js/backbone.basicauth.js'
                 ],
-                dest: 'build/backbone-bundled.js'
+                dest: 'dist/js/backbone-bundled.js'
             },
             marionette_bundled: {
                 src: [
@@ -50,51 +61,48 @@ module.exports = function (grunt) {
                     'packages/stadline/js-extension-bundle/Resources/public/js/marionette.filtering.js',
                     'packages/stadline/js-extension-bundle/Resources/public/js/jquery.serialize-object.js'
                 ],
-                dest: 'build/marionette-bundled.js'
+                dest: 'dist/js/marionette-bundled.js'
             },
             main: {
                 src: [
-                    'build/underscore-bundled.js',
-                    'build/backbone-bundled.js',
-                    'build/marionette-bundled.js',
                     'packages/stadline/js-extension-bundle/Resources/public/backbone/extensions/*.js',
-                    'scripts/models/*.js',
-                    'scripts/collections/*.js',
-                    'scripts/views/*.js',
-                    'scripts/main.js'
+                    'assets/scripts/models/*.js',
+                    'assets/scripts/collections/*.js',
+                    'assets/scripts/views/*.js',
+                    'assets/scripts/main.js'
                 ],
-                dest: 'build/main.js'
+                dest: 'dist/js/main.js'
             }
         },
         uglify: {
             options: {
                 sourceMap: true,
                 sourceMapIncludeSources: true,
-                sourceMapIn : 'build/main.js.map'
+                sourceMapIn: 'dist/js/main.js.map'
             },
             build: {
-                src: 'build/main.js',
-                dest: 'build/main.min.js'
+                src: 'dist/js/main.js',
+                dest: 'dist/js/main.min.js'
             }
         },
         watch: {
             styles: {
-                files: ['styles/*.less', 'styles/**/*.less'],
-                tasks: ['less'],
+                files: ['assets/**/*.css', 'assets/**/*.less'],
+                tasks: ['less', 'notify:watch'],
                 options: {
                     spawn: false
                 }
             },
             scripts: {
-                files: ['scripts/*.js', 'scripts/**/*.js'],
-                tasks: ['concat', 'uglify'],
+                files: ['assets/**/*.js'],
+                tasks: ['concat', 'uglify', 'notify:watch'],
                 options: {
                     spawn: false
                 }
             },
             templates: {
-                files: ['templates/*.html', 'templates/**/*.html'],
-                tasks: ['concat', 'uglify'],
+                files: ['assets/**/*.html'],
+                tasks: ['concat', 'uglify', 'notify:watch'],
                 options: {
                     spawn: false
                 }

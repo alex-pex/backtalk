@@ -18,6 +18,8 @@ App.module('Views', function(module) {
 
             var values = this.$('form').serializeObject();
             var message = new App.Models.Message(values.message);
+
+            message.set('created_at', new Date());
             App.messages.add(message);
             message.save();
 
