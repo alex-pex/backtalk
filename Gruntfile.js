@@ -106,11 +106,22 @@ module.exports = function (grunt) {
                 options: {
                     spawn: false
                 }
+            },
+            browserify: {
+                files: ['browserify-assets/**/*.js'],
+                tasks: ['browserify', 'notify:watch'],
+                options: {
+                    spawn: false
+                }
             }
+        },
+        browserify: {
+            'browserify-dist/js/app.js': ['browserify-assets/scripts/app.js']
         }
     });
 
     // 3. Where we tell Grunt we plan to use this plug-in.
+    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -118,7 +129,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-notify');
 
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-    grunt.registerTask('build', ['less', 'concat', 'uglify']);
+    grunt.registerTask('build', ['less', 'concat', 'uglify', 'browserify']);
     grunt.registerTask('dev', ['build', 'watch']);
 
     grunt.registerTask('default', ['build']);
